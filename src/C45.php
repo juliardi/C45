@@ -131,7 +131,7 @@ class C45
      *
      * @return TreeNode
      */
-    public function calculateC45(array $criteria = [])
+    public function buildTree(array $criteria = [])
     {
         $treeNode = new TreeNode();
         // PRUNING-PRUNINGAN
