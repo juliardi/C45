@@ -1,0 +1,19 @@
+{
+    "name": "juliardi/c45",
+    "type": "[library]",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Safri Juliardi",
+            "email": "ardi93@gmail.com"
+        }
+    ],
+    "require": {
+        "juliardi/data-reader": "^1.0"
+    },
+    "autoload": {
+         "psr-4": {
+            "C45\\": "src/"
+        }
+    }
+}
