@@ -174,7 +174,7 @@ class C45
             if (array_sum($targetCount) == 0) {
                 $treeNode->removeValue($value);
             } elseif (!empty($splitCriterion)) {
-                $child = $this->calculateC45($criteria);
+                $child = $this->buildTree($criteria);
                 $child->setParent($treeNode);
 
                 $treeNode->addChild($value, $child);
