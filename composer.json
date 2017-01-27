@@ -1,6 +1,6 @@
 {
     "name": "juliardi/c45",
-    "type": "[library]",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
