@@ -174,7 +174,7 @@ class TreeNode
             $result .= $tabs.$this->attribute.' = '.$key;
 
             if ($child->getIsLeaf()) {
-                $classCount = $this->getClassesCountAsString($key);
+                $classCount = $this->getInstanceCountAsString($key);
                 $result .= ' : '.$child->getChild('result').' '.$classCount."\n";
             } else {
                 $result .= "\n";
@@ -199,6 +199,25 @@ class TreeNode
         return $result;
     }
 
+    private function getInstanceCountAsString($attributeValue)
+    {
+        $result = '(';
+        $total = array_sum($this->classesCount[$attributeValue]);
+        $child = $this->getChild($attributeValue);
+        $className = $child->getChild('result');
+        $classCount = $this->classesCount[$attributeValue][$className];
+
+        if ($total > $classCount) {
+            $result .= $total.'.0';
+            $result .= '/'.($total - $classCount).'.0';
+        } else {
+            $result .= $classCount.'.0';
+        }
+
+        $result .= ')';
+
+        return $result;
+    }
     /**
      * Saves tree to file.
      *

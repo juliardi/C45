@@ -172,7 +172,16 @@ class C45
             $treeNode->addClassesCount($value, $targetCount);
 
             if (array_sum($targetCount) == 0) {
-                $treeNode->removeValue($value);
+                $targetCount2 = $this->countTargetByCriteria([$bestAttrName => $value]);
+                $biggestClass = $this->getBiggestArrayAttribute($targetCount2);
+
+                $child = new TreeNode();
+                $child->setParent($treeNode);
+                $child->setAttribute($this->targetAttribute);
+                $child->addChild('result', $biggestClass);
+                $child->setIsLeaf(true);
+
+                $treeNode->addChild($value, $child);
             } elseif (!empty($splitCriterion)) {
                 $child = $this->buildTree($criteria);
                 $child->setParent($treeNode);
