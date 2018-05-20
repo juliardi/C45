@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": ">=5.5",
         "juliardi/data-reader": "^1.0"
     },
     "autoload": {
