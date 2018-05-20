@@ -88,6 +88,7 @@ class TreeNode
     }
 
     /**
+     * @param string $value
      * @return self
      */
     public function getChild($value)
@@ -98,6 +99,15 @@ class TreeNode
     }
 
     /**
+     * Returns an array of the current node value
+     * @return array
+     */
+    public function getValues()
+    {
+        return array_keys($this->values);
+    }
+
+    /**
      * @return string
      */
     public function getAttributeName()
@@ -105,6 +115,10 @@ class TreeNode
         return $this->attribute;
     }
 
+    /**
+     * Removes value from TreeNode
+     * @param  string $value
+     */
     public function removeValue($value)
     {
         if ($this->hasValue($value)) {
@@ -112,6 +126,11 @@ class TreeNode
         }
     }
 
+    /**
+     * Checks whether the current node has a value
+     * @param  string  $value
+     * @return bool
+     */
     public function hasValue($value)
     {
         if (!isset($this->values)) {
@@ -144,6 +163,11 @@ class TreeNode
         }
     }
 
+    /**
+     * Generates an array representation of the tree.
+     *
+     * @return string
+     */
     public function __toArray()
     {
         $arrObj = [];
@@ -185,6 +209,10 @@ class TreeNode
         return $result;
     }
 
+    /**
+     * @param  string $attributeValue
+     * @return string
+     */
     private function getClassesCountAsString($attributeValue)
     {
         $result = '(';
@@ -199,6 +227,10 @@ class TreeNode
         return $result;
     }
 
+    /**
+     * @param  string $attributeValue
+     * @return string
+     */
     private function getInstanceCountAsString($attributeValue)
     {
         $result = '(';
@@ -238,7 +270,7 @@ class TreeNode
     /**
      * Creates TreeNode object from file.
      *
-     * @param string Full path filename
+     * @param string $filename Full path filename
      *
      * @return self
      */
