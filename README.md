@@ -14,7 +14,7 @@ php composer.phar require --prefer-dist juliardi/c45 "*"
 or add
 
 ```
-"asasmoyo/yii2-saml": "*"
+"juliardi/c45": "*"
 ```
 
 to the require section of your composer.json file.
