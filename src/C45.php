@@ -12,13 +12,23 @@ use DataReader\CSV\Reader;
  */
 class C45
 {
+    /**
+     * @var array
+     */
     const REQUIRED_CONFIG = [
         'targetAttribute',
         'trainingFile',
         'splitCriterion',
     ];
 
+    /**
+     * @var int
+     */
     const SPLIT_GAIN = 0;
+
+    /**
+     * @var int
+     */
     const SPLIT_GAIN_RATIO = 1;
 
     /**
@@ -27,6 +37,8 @@ class C45
     protected $config;
 
     /**
+     * Determines the split criterion used in calculation.
+     * It must be set to either C45::SPLIT_GAIN or C45::SPLIT_GAIN_RATIO.
      * @var int
      */
     protected $splitCriterion;
@@ -71,6 +83,10 @@ class C45
      */
     private $gainRatioCalculator;
 
+    /**
+     * @param array $config A configuration array. It must contains keys name
+     * as described in C45::REQUIRED_CONFIG.
+     */
     public function __construct(array $config = [])
     {
         if ($this->validateConfig($config)) {
@@ -91,12 +107,9 @@ class C45
     }
 
     /**
-     * Validates config values.
-     *
+     * Validates configuration values.
      * @param array $config
-     *
      * @return bool
-     *
      * @throws InvalidConfigException
      */
     private function validateConfig(array $config)
@@ -112,6 +125,10 @@ class C45
         return true;
     }
 
+    /**
+     * Assigns configuration values to its respective place.
+     * @param  array  $config
+     */
     private function assignConfig(array $config)
     {
         foreach (self::REQUIRED_CONFIG as $value) {
@@ -119,16 +136,17 @@ class C45
         }
     }
 
+    /**
+     * Initializes \DataReader\IFace\DataReaderInterface object to reads training file
+     */
     private function initTraining()
     {
         $this->training = new Reader($this->trainingFile);
     }
 
     /**
-     * Build decision tree using C4.5 algorithm.
-     *
+     * Builds decision tree using C4.5 algorithm.
      * @param array $criteria
-     *
      * @return TreeNode
      */
     public function buildTree(array $criteria = [])
@@ -204,6 +222,11 @@ class C45
         return $treeNode;
     }
 
+    /**
+     * Calculates the split criterion by referring to C45::splitCriterion value.
+     * @param  array  $criteria
+     * @return float The gain or gain ratio value
+     */
     private function calculateSplitCriterion($criteria = [])
     {
         $gain = $this->gainCalculator->calculateGainAllAttributes($criteria);
@@ -218,6 +241,10 @@ class C45
         }
     }
 
+    /**
+     * @param  array  $criteria
+     * @return float
+     */
     private function calculateClassProbability(array $criteria)
     {
         $cTarget = $this->countTargetByCriteria($criteria);
@@ -231,6 +258,12 @@ class C45
         return $classProb;
     }
 
+    /**
+     * Calculates class probability of a node
+     * @param  int $cTargetClass
+     * @param  int $total
+     * @return float
+     */
     private function classProbability($cTargetClass, $total)
     {
         if ($total == 0) {
@@ -240,6 +273,11 @@ class C45
         return $cTargetClass / $total;
     }
 
+    /**
+     * Checks if a leaf node belongs to only one type of class
+     * @param  array   $criteria
+     * @return bool
+     */
     private function isBelongToOneClass(array $criteria)
     {
         $countAll = $this->training->countByCriteria($criteria);
@@ -259,6 +297,10 @@ class C45
         return ['return' => false];
     }
 
+    /**
+     * @param  array  $array
+     * @return string Array's key of the biggest value in the array
+     */
     private function getBiggestArrayAttribute(array $array)
     {
         array_multisort($array, SORT_DESC);
@@ -268,6 +310,10 @@ class C45
         return $key;
     }
 
+    /**
+     * @param  array  $criteria
+     * @return int[]
+     */
     private function countTargetByCriteria(array $criteria)
     {
         $targetCount = [];
@@ -282,6 +328,10 @@ class C45
         return $targetCount;
     }
 
+    /**
+     * @param  string $attributeName
+     * @return mixed
+     */
     private function getAttributeValues($attributeName)
     {
         return $this->training->getClasses([$attributeName])[$attributeName];
