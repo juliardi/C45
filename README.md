@@ -77,4 +77,12 @@ $treeString = $tree->toString();
 echo '<pre>';
 print_r($treeString);
 echo '</pre>';
+
+$testingData = [
+  'outlook' => 'sunny',
+  'windy' => 'false',
+  'humidity' => 'high',
+];
+
+echo $tree->classify($testingData); // prints 'no'
 ```
